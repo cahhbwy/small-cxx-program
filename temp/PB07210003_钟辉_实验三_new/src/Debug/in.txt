@@ -1,0 +1,18 @@
+create table t( id 10 int key, 
+name 20 notnull key, age 10 );
+show table t;
+insert into t value( 0.1, testInt, 0 );
+insert into t value( 0, Ben, 20.75 );
+insert into t value( 0, Ben, 20 );
+insert into t value( 0, 'Another Ben', 21.3333333333333 );
+insert into t value( 4, hell, 07210 );
+insert into t value( 5, you,  );
+insert into t value( 6, ,  );
+select * from t;
+select id, name, xxx from t where age > 21.3;
+update t set name = cc where name = 'Another Ben';
+select * from t;
+create table tt( id 10 ref t id, phone 10 );
+delete from t where age > 100;
+select * from t;
+select name, age from t;
