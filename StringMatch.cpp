@@ -6,7 +6,8 @@ using namespace std;
 int naive(string haystack, string needle) {
 	int n = haystack.length();
 	int m = needle.length();
-	if (m == 0 || n == 0)	return 0;
+	if (m == 0)	return 0;
+	if (n == 0)	return -1;
 	int count = 0;
 	int i, j;
 	for (i = 0; i <= n - m; ++i) {
@@ -29,7 +30,8 @@ int naive(string haystack, string needle) {
 int kmp(string haystack, string needle) {
 	int m = needle.length();
 	int n = haystack.length();
-	if (m == 0 || n == 0)	return 0;
+	if (m == 0)	return 0;
+	if (n == 0)	return -1;
 	int count = 0;
 	//next
 	int *next = new int[m];
@@ -73,7 +75,8 @@ int kmp(string haystack, string needle) {
 int bm(string haystack, string needle) {
 	int m = needle.length();
 	int n = haystack.length();
-	if (m == 0 || n == 0)	return 0;
+	if (m == 0)	return 0;
+	if (n == 0)	return -1;
 	int count = 0, i, j, k;
 	//bad charater
 	int bmBc[256];
@@ -140,7 +143,8 @@ int bm(string haystack, string needle) {
 int sunday(string haystack, string needle) {
 	int m = needle.length();
 	int n = haystack.length();
-	if (m == 0 || n == 0)	return 0;
+	if (m == 0)	return 0;
+	if (n == 0)	return -1;
 	int count = 0, i, j;
 	//bad charater
 	int bc[256];
