@@ -22,10 +22,10 @@ gcc testCA.c -o testCA.out libCA.a
 
 #GCC 生成动态链接库并调用
 gcc -c -fPIC CA.c CA.h
-gcc -shared CA.o -o CA.so
+gcc -shared CA.o -o libCA.so
 ####或者
-gcc -shared -fPIC CA.c CA.h -o CA.so
+gcc -shared -fPIC CA.c CA.h -o libCA.so
 ##生成测试程序
-gcc testCA.c -o testCA.out libCA.a
+gcc testCA.c -o testCA.out libCA.so
 ##测试(拷贝.so文件或者设置LD_LIBRARY_PATH)
 ./testCA.out
