@@ -30,11 +30,11 @@ scores =   3*1*5    +    3*5*7  +  1*3*7  + 1*7*1  = 148
 #include<stdlib.h>
 #include<string.h>
 void main(int argc,char** argv){
-	int array[]={1,2,3,4};
-	int length=4;
-	int select=2;
-	int total;
-	int **result; 
+	int array[]={1,2,3,4,5};
+	int length=5;
+	int select=5;
+	long long total;
+	int **result;
 	//ееап
 	printf("Arrangement:\n");
 	result=arrangementArray(array,length,select,&total);

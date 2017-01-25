@@ -1,25 +1,48 @@
 #include "CA.h"
-int factorial(int i,int end){
+long long factorial(int i,int end){
 	if(i<=end){
 		return 1;
 	}else{
-		return i*factorial(i-1,end);
+		long long tmp=factorial(i-1,end);
+		long long t=tmp*i;
+		if(t/i!=tmp){
+			printf("too large number!\n");
+			exit(-2);
+		}
+		return i*tmp;
 	}
 }
-int arrangementNumber(int n,int m){
+long long arrangementNumber(int n,int m){
 	return factorial(n,n-m);
 }
-int combinationNumber(int n,int m){
+long long combinationNumber(int n,int m){
 	return factorial(n,n-m)/factorial(m,1);
 }
-int** arrangementArray(int* array,int length,int select,int *total){
+int** arrangementArray(int* array,int length,int select,long long *total){
 	*total=arrangementNumber(length,select);
 	int **result=(int**)calloc(*total,sizeof(int*));
+	if(!result){
+		printf("calloc failed!\n");
+		exit(-2);
+	}
 	char *status=(char*)calloc(length,sizeof(char));
+	if(!status){
+		printf("calloc failed!\n");
+		exit(-2);
+	}
 	int **point=(int**)calloc(select,sizeof(int*));
-	int i,j,k;
+	if(!point){
+		printf("calloc failed!\n");
+		exit(-2);
+	}
+	long long i;
+	int j,k;
 	for(i=0;i<*total;++i){
 		result[i]=(int*)calloc(select,sizeof(int));
+		if(!result[i]){
+			printf("calloc failed!\n");
+			exit(-2);
+		}
 	}
 	memset(status,false,length);
 	memset(point,0x00,select*sizeof(int*));
@@ -64,16 +87,35 @@ int** arrangementArray(int* array,int length,int select,int *total){
 			}
 		}
 	}
+	free(status);
+	free(point);
 	return result;
 }
-int** combinationArray(int* array,int length,int select,int *total){
+int** combinationArray(int* array,int length,int select,long long *total){
 	*total=combinationNumber(length,select);
 	int **result=(int**)calloc(*total,sizeof(int*));
+	if(!result){
+		printf("calloc failed!\n");
+		exit(-2);
+	}
 	char *status=(char*)calloc(length,sizeof(char));
+	if(!status){
+		printf("calloc failed!\n");
+		exit(-2);
+	}
 	int **point=(int**)calloc(select,sizeof(int*));
-	int i,j,k;
+	if(!point){
+		printf("calloc failed!\n");
+		exit(-2);
+	}
+	long long i;
+	int j,k;
 	for(i=0;i<*total;++i){
 		result[i]=(int*)calloc(select,sizeof(int));
+		if(!result[i]){
+			printf("calloc failed!\n");
+			exit(-2);
+		}
 	}
 	memset(status,false,length);
 	memset(point,0x00,select*sizeof(int*));
@@ -109,6 +151,8 @@ int** combinationArray(int* array,int length,int select,int *total){
 			}
 		}
 	}
+	free(status);
+	free(point);
 	return result;
 }
 void print(int** array,int total,int size){
