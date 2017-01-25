@@ -1,4 +1,5 @@
 #TDM-GCC 生成动态链接库并调用
+ps:以下为release版本的编译，debug版本加-g3参数（生成gdb专用的调试信息，其他的google吧）
 ##生成动态链接库
 gcc -c CA.c -o CA.o
 gcc -shared CA.o -o CA.dll
