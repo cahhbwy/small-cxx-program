@@ -14,7 +14,7 @@ testCA.exe
 ![example png](example.png)
 
 ##GCC 生成静态链接库并调用
-###生成动态连接库
+###生成静态连接库
 gcc -c CA.c CA.h  
 ar -r libCA.a CA.h.gch CA.o
 ###生成测试程序
