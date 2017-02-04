@@ -22,6 +22,7 @@ void create(){
 	}
 	i=blank[(int)(((float)rand()/RAND_MAX)*nums)];
 	grid[i]=rand()<RAND_MAX*probability?2:4;
+	free(blank);
 }
 bool moveOnce(int *index){
 	int blank=0,i,j;
@@ -84,6 +85,7 @@ bool moveWhole(char operation){
 			break;
 		default:break;
 	}
+	free(index);
 	return changed;
 }
 void show(){
@@ -184,5 +186,6 @@ int main(int argc,char** argv){
 			break;
 		}
 	}
+	free(grid);
 	return 0;
 }
