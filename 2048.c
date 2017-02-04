@@ -17,8 +17,9 @@
 int size = 4;
 float probability = 0.9f;
 unsigned int *grid;
+int *blank;
+int *indexArray;
 void create() {
-	int *blank = (int*)calloc(size*size, sizeof(int));
 	int nums = 0, i;
 	for (i = 0; i < size*size; ++i) {
 		if (grid[i] == 0) {
@@ -28,24 +29,23 @@ void create() {
 	}
 	i = blank[(int)(((float)rand() / RAND_MAX)*nums)];
 	grid[i] = rand() < RAND_MAX*probability ? 2 : 4;
-	free(blank);
 }
-bool moveOnce(int *index) {
-	int blank = 0, i;
+bool moveOnce() {
+	int ready = 0, i;
 	bool changed = false;
 	for (i = 1; i < size; ++i) {
-		if (grid[index[i]] != 0) {
-			while (blank < i) {
-				if (grid[index[blank]] == 0 || grid[index[blank]] == grid[index[i]]) {
+		if (grid[indexArray[i]] != 0) {
+			while (ready < i) {
+				if (grid[indexArray[ready]] == 0 || grid[indexArray[ready]] == grid[indexArray[i]]) {
 					changed = true;
-					grid[index[blank]] += grid[index[i]];
-					if (grid[index[blank]] != grid[index[i]]) {
-						++blank;
+					grid[indexArray[ready]] += grid[indexArray[i]];
+					if (grid[indexArray[ready]] != grid[indexArray[i]]) {
+						++ready;
 					}
-					grid[index[i]] = 0;
+					grid[indexArray[i]] = 0;
 					break;
 				} else {
-					++blank;
+					++ready;
 				}
 			}
 		}
@@ -55,43 +55,41 @@ bool moveOnce(int *index) {
 bool moveWhole(char operation) {
 	bool changed = false;
 	int i, j;
-	int *index = (int*)calloc(size, sizeof(int));
 	switch (operation) {
 		case 'u':
 			for (i = 0; i < size; ++i) {
 				for (j = 0; j < size; ++j) {
-					index[j] = j*size + i;
+					indexArray[j] = j*size + i;
 				}
-				changed |= moveOnce(index);
+				changed |= moveOnce();
 			}
 			break;
 		case 'd':
 			for (i = 0; i < size; ++i) {
 				for (j = 0; j < size; ++j) {
-					index[j] = (size - 1 - j)*size + i;
+					indexArray[j] = (size - 1 - j)*size + i;
 				}
-				changed |= moveOnce(index);
+				changed |= moveOnce();
 			}
 			break;
 		case 'l':
 			for (i = 0; i < size; ++i) {
 				for (j = 0; j < size; ++j) {
-					index[j] = i*size + j;
+					indexArray[j] = i*size + j;
 				}
-				changed |= moveOnce(index);
+				changed |= moveOnce();
 			}
 			break;
 		case 'r':
 			for (i = 0; i < size; ++i) {
 				for (j = 0; j < size; ++j) {
-					index[j] = i*size + (size - 1 - j);
+					indexArray[j] = i*size + (size - 1 - j);
 				}
-				changed |= moveOnce(index);
+				changed |= moveOnce();
 			}
 			break;
 		default:break;
 	}
-	free(index);
 	return changed;
 }
 void show() {
@@ -181,6 +179,8 @@ int main(int argc, char** argv) {
 	bool keep = false;
 	bool changed = true;
 	char state;
+	blank = (int*)calloc(size*size, sizeof(int));
+	indexArray = (int*)calloc(size, sizeof(int));
 	while (true) {
 		if (changed) {
 			create();
@@ -205,6 +205,8 @@ int main(int argc, char** argv) {
 #if !defined(_WIN32)
 	endwin();
 #endif
+	free(blank);
 	free(grid);
+	free(indexArray);
 	return 0;
 }
