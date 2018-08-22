@@ -10,8 +10,10 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 #include<conio.h>
+#include<windows.h> 
 #else
 #include<curses.h>
+#include<unistd.h>
 #endif
 
 int size = 4;
@@ -155,7 +157,55 @@ char isFinished(bool keep) {
 	}
 	return 2;
 }
-int main(int argc, char** argv) {
+void autoRun(){
+	bool keep = false;
+	bool changed = true;
+	char state;
+	char rand=false;
+	blank = (int*)calloc(size*size, sizeof(int));
+	indexArray = (int*)calloc(size, sizeof(int));
+	while (true) {
+		if (changed) {
+			create();
+		}
+		state = isFinished(keep);
+		show();
+#if defined(_WIN32)
+		Sleep(1000);
+#else
+		sleep(1000);
+#endif
+		if (state == 0) {
+			if(changed){
+				if(rand){
+					changed = moveWhole('u');
+				}else{
+					changed = moveWhole('l');
+				}
+			}else{
+				if(rand){
+					changed = moveWhole('d');
+				}else{
+					changed = moveWhole('r');
+				}
+			}
+			rand^=0x01;
+		} else if (state == 1) {
+			printf("¼ÌÐøy/n(other key)?\n");
+			char x = getchar();
+			fflush(stdin);
+			if (x == 'y') {
+				keep = true;
+			} else {
+				break;
+			}
+		} else {
+			break;
+		}
+	}
+	return;
+}
+int main2(int argc, char** argv) {
 	if (argc >= 2) {
 		size = atoi(argv[1]);
 		if (argc >= 3) {
@@ -210,3 +260,12 @@ int main(int argc, char** argv) {
 	free(indexArray);
 	return 0;
 }
+int main(int argc, char** argv){
+	grid = (unsigned int*)calloc(size*size, sizeof(unsigned int));
+	srand((unsigned)time(NULL));
+	blank = (int*)calloc(size*size, sizeof(int));
+	indexArray = (int*)calloc(size, sizeof(int));
+	autoRun();
+	return;
+}
+
